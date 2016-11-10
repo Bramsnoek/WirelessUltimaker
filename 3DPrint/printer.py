@@ -24,17 +24,9 @@ class Printer:
         from printrun import gcoder
         from printrun.printcore import printcore
 
-        if file:
-            raise ValueError('The filepath cannot be empty')
-
-        #TODO: Pherhaps check if the file exists? Not quite sure yet because im sending a file via sockets. So I can probably check this in the ui application
-
         disectedGCode = [i.strip() for i in open(file)]
+
         disectedGCode = gcoder.LightGCode(disectedGCode)
-        
+
         printer = printcore(self.comPort, self.baudRate)
         printer.startprint(disectedGCode)
-
-
-
-
