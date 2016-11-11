@@ -4,6 +4,7 @@ from printer import Printer
 from auth import FontysAuth
 from eve import Eve
 from flask.ext.cors import CORS
+import time
 import json
 import base64
 
@@ -21,8 +22,8 @@ def before_insert(documents):
     file_result.write(base64.decodestring(str(json_data_encoded[0]['id'])))
     file_result.close()
 
-    pPrinter = Printer("/dev/ttyACM0")
-    pPrinter.Print(os.getcwd() + '/image.gcode')
+    pPrinter = Printer("/dev/ttyACM1")
+    pPrinter.Print('/home/bram/Documents/UM2_Bottom.gcode')
 
 def generalizeData(correctData):
     indexOfId = (str(correctData)).index('id')
