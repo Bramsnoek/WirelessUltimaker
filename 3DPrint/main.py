@@ -1,42 +1,44 @@
-import subprocess, sys, time, os, sys
+import subprocess, os, sys
+from subprocess import call
 from printer import Printer
 from auth import FontysAuth
 from eve import Eve
-from pprint import pprint
+from flask.ext.cors import CORS
 import json
 import base64
 
-app = Eve(auth=FontysAuth, settings='settings.py')
+#If I Ever Get IOError: [Errno32] Broken Pipe again: sudo service mongod restart
+#You forgot to start mongoDB service!
 
-def before_insert(resource_name, documents):
-    if(resource_name == "printer"):
+app = Eve(settings='settings.py')
 
-        correctData = str(documents)
-        indexOfId = (str(correctData)).index('id')
+def before_insert(documents):
+    #if(resource_name == "printer"):
+    correctData = generalizeData(str(documents))
+    json_data_encoded = json.loads(str(correctData))
+    
+    file_result = open('image.gcode', 'wb')
+    file_result.write(base64.decodestring(str(json_data_encoded[0]['id'])))
+    file_result.close()
 
-        correctData = correctData.replace(correctData[3:indexOfId], "")
-        correctData = correctData.replace("u'", "\"")
-        correctData = correctData.replace("'", "\"")
+    pPrinter = Printer("/dev/ttyACM0")
+    pPrinter.Print(os.getcwd() + '/image.gcode')
 
-        json_data_encoded = json.loads(str(correctData))
-        
-        file_result = open('image.gcode', 'wb')
-
-        file_result.write(base64.decodestring(str(json_data_encoded[0]['id'])))
-
-        file_result.close()
-
-        #pPrinter = Printer("ttyS0")
-       # pPrinter.Print(os.getcwd() + '/image.gcode')
-
-        #os.remove(file_result)
-
-
+def generalizeData(correctData):
+    indexOfId = (str(correctData)).index('id')
+    correctData = correctData.replace(correctData[3:indexOfId], "")
+    correctData = correctData.replace("u'", "\"")
+    correctData = correctData.replace("'", "\"")
+    return correctData
 
 if __name__ == '__main__':
+    call(["sudo", "service", "mongod", "restart"])
+
     printRunDirectory = os.getcwd() + '/Printrun'
     sys.path.insert(0, printRunDirectory)
 
-    app.on_insert += before_insert
+    #maybe change on_insert_printer back to on_insert
+    app.on_insert_printer += before_insert
 
-    app.run(debug=True)
+    CORS(app)
+    app.run(debug=True, port=12000)

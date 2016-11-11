@@ -1,4 +1,6 @@
 import os, sys
+import serial
+import termios
 
 class Printer:
     """
@@ -24,9 +26,17 @@ class Printer:
         from printrun import gcoder
         from printrun.printcore import printcore
 
+        # Disable reset after hangup
+        with open(self.comPort) as f:
+            attrs = termios.tcgetattr(f)
+            attrs[2] = attrs[2] & ~termios.HUPCL
+            termios.tcsetattr(f, termios.TCSAFLUSH, attrs)
+
         disectedGCode = [i.strip() for i in open(file)]
 
         disectedGCode = gcoder.LightGCode(disectedGCode)
+
+        ser = serial.Serial(self.comPort, self.baudRate)
 
         printer = printcore(self.comPort, self.baudRate)
         printer.startprint(disectedGCode)
