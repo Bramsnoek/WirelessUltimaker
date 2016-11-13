@@ -119,7 +119,7 @@
                   3D Print Online
                </div>
             </h2>
-            <div class="ui error message" id="noDeltaError">
+            <div class="ui error message" id="noDeltaError" style="display: none;">
               <i class="close icon" onclick="removeDeltaError()"></i>
               <div class="header">
                 Unfortunately you can't make use of this service!

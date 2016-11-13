@@ -12,7 +12,6 @@ $(function() {
                 document.getElementById('title').remove()
                 return;
             }
-            removeDeltaError()
     });
 });
 
