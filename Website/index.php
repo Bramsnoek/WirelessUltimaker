@@ -122,7 +122,7 @@
             <div class="ui error message" id="noDeltaError">
               <i class="close icon" onclick="removeDeltaError()"></i>
               <div class="header">
-                Unfortunetaly you can't make use of this service!
+                Unfortunately you can't make use of this service!
               </div>
               <ul class="list">
                 <li>You need to be a part of Delta</li>
