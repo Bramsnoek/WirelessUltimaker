@@ -18,12 +18,12 @@ def before_insert(documents):
     correctData = generalizeData(str(documents))
     json_data_encoded = json.loads(str(correctData))
     
-    file_result = open('image.gcode', 'wb')
+    file_result = open('/gcodefiles/image.gcode', 'wb')
     file_result.write(base64.decodestring(str(json_data_encoded[0]['id'])))
     file_result.close()
 
     pPrinter = Printer("/dev/ttyACM1")
-    pPrinter.Print('/home/bram/Documents/UM2_Bottom.gcode')
+    pPrinter.Print(os.getcwd() + '/gcodefiles/image.gcode')
 
 def generalizeData(correctData):
     indexOfId = (str(correctData)).index('id')
@@ -38,7 +38,6 @@ if __name__ == '__main__':
     printRunDirectory = os.getcwd() + '/Printrun'
     sys.path.insert(0, printRunDirectory)
 
-    #maybe change on_insert_printer back to on_insert
     app.on_insert_printer += before_insert
 
     CORS(app)

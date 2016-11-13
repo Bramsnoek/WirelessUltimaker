@@ -5,7 +5,7 @@ import time
 
 class Printer:
     """
-    This class will be used for al printer related actions.
+    This class will be used for all printer related actions.
     The init function will give the class the appropiate values needed for those actions.
 
     @param comPort: The COM-port thats assigned to the cable attached to your ultimaker. (COMx For Windows) (ttyACMxs linux)
