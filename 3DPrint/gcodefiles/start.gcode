@@ -3,8 +3,11 @@ G21 ;metric values
 G90 ;absolute positioning
 M82 ;set extruder to absolute mode
 M107 ;start with the fan off
+
+M203 X40 Y40
 M190 S75 ;Heat up bed 
 M109 S242 ;Heat up extruder
+
 G28; Home Axis
 G29; Z-Probe the bed (requires Z-Probe!)
 G1 Z5.0 F8900 ;move the bed up
