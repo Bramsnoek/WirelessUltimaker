@@ -31,7 +31,7 @@ class Printer:
 
         time.sleep(2)
 
-        disectedGCode = [i.strip() for i in open('/home/bram/Downloads/test.gcode')]
+        disectedGCode = [i.strip() for i in open(file)]
 
         disectedGCode = gcoder.LightGCode(disectedGCode)
 

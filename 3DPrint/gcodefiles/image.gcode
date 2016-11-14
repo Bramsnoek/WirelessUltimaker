@@ -7,6 +7,22 @@
 
 ;LAYER_COUNT:65
 ;LAYER:0
+
+G21 ;metric values
+G90 ;absolute positioning
+M82 ;set extruder to absolute mode
+M107 ;start with the fan off
+M190 S75 ;Heat up bed 
+M109 S242 ;Heat up extruder
+G28; Home Axis
+G29; Z-Probe the bed (requires Z-Probe!)
+M220 40 ;Set Travel Speed
+G1 Z5.0 F9000 ;move the bed up
+;G1 Z0. ; move nozzle close to bed
+G1 F12000 X5 Y10 ;Move To Left Bottom
+G1 X100 Y0 F4000 E15 ; move half way along the front edge
+
+
 M107
 G10
 G0 F4500 X105.777 Y106.988 Z.3

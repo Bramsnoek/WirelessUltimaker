@@ -22,7 +22,7 @@ def before_insert(documents):
     file_result.write(base64.decodestring(str(json_data_encoded[0]['id'])))
     file_result.close()
 
-    pPrinter = Printer("/dev/ttyACM1")
+    pPrinter = Printer("/dev/ttyACM0")
     pPrinter.Print(os.getcwd() + '/gcodefiles/image.gcode')
 
 def generalizeData(correctData):
@@ -33,12 +33,17 @@ def generalizeData(correctData):
     return correctData
 
 if __name__ == '__main__':
-    call(["sudo", "service", "mongod", "restart"])
+    #call(["sudo", "service", "mongod", "restart"])
 
-    printRunDirectory = os.getcwd() + '/Printrun'
+    printRunDirectory = os.getcwd() + '/printrun'
+    print(printRunDirectory)
     sys.path.insert(0, printRunDirectory)
 
-    app.on_insert_printer += before_insert
+    #app.on_insert_printer += before_insert
 
-    CORS(app)
-    app.run(debug=True, port=12000)
+    #CORS(app)
+    #app.run(debug=True, port=12000)
+    pPrinter = Printer("/dev/ttyACM0")
+
+        
+    pPrinter.Print(os.getcwd() + '/gcodefiles/UM2_3DBenchy.gcode')
